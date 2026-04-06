@@ -15,27 +15,38 @@ Item {
     signal dismissRequested()
 
     property bool upperCase: false
+    property bool stickyUpperCase: false
     property string currentLayout: "alpha"
+
+    function resetSingleUpperCaseIfNeeded() {
+        if (root.upperCase && !root.stickyUpperCase) {
+            root.upperCase = false
+        }
+    }
 
     function handleAction(action, value) {
         if (action === "group") {
             characterPopup.openFor(value, root.upperCase)
         } else if (action === "insert") {
             root.textRequested(value)
-            if (root.upperCase) {
-                root.upperCase = false
-            }
+            resetSingleUpperCaseIfNeeded()
         } else if (action === "backspace") {
             root.backspaceRequested()
         } else if (action === "shift") {
-            root.upperCase = !root.upperCase
+            if (root.stickyUpperCase) {
+                root.stickyUpperCase = false
+                root.upperCase = false
+            } else {
+                root.upperCase = !root.upperCase
+            }
+        } else if (action === "shiftDouble") {
+            root.stickyUpperCase = !root.stickyUpperCase
+            root.upperCase = root.stickyUpperCase
         } else if (action === "enter") {
             root.enterRequested()
         } else if (action === "space") {
             root.spaceRequested()
-            if (root.upperCase) {
-                root.upperCase = false
-            }
+            resetSingleUpperCaseIfNeeded()
         } else if (action === "left") {
             root.leftRequested()
         } else if (action === "right") {
@@ -69,9 +80,7 @@ Item {
 
         onCharacterSelected: function(value) {
             root.textRequested(value)
-            if (root.upperCase) {
-                root.upperCase = false
-            }
+            root.resetSingleUpperCaseIfNeeded()
         }
     }
 
@@ -80,6 +89,7 @@ Item {
 
         KeyGrid {
             keyModel: KeyData.alphaModel(root.upperCase)
+
             onActionTriggered: function(action, value) {
                 root.handleAction(action, value)
             }
@@ -91,6 +101,7 @@ Item {
 
         KeyGrid {
             keyModel: KeyData.numberModel()
+
             onActionTriggered: function(action, value) {
                 root.handleAction(action, value)
             }
@@ -102,6 +113,7 @@ Item {
 
         KeyGrid {
             keyModel: KeyData.specialModel()
+
             onActionTriggered: function(action, value) {
                 root.handleAction(action, value)
             }

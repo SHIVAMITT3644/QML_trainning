@@ -2,11 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-ApplicationWindow {
+Window {
     id: window
     width: 420
     height: 720
-    visible: true
     title: "Feature Phone Keypad"
 
     function insertAtCursor(value) {
@@ -57,7 +56,6 @@ ApplicationWindow {
                     width: parent.width
                     wrapMode: TextEdit.Wrap
                     placeholderText: "Tap keys to type..."
-                    selectByMouse: true
                     font.pixelSize: 18
                     focus: true
                 }

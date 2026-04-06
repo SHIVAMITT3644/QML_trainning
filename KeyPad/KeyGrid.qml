@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
@@ -20,12 +19,22 @@ Item {
             delegate: KeyButton {
                 Layout.columnSpan: modelData.columnSpan ? modelData.columnSpan : 1
                 Layout.fillWidth: true
-                Layout.fillHeight: true
                 Layout.preferredHeight: modelData.heightHint ? modelData.heightHint : 52
 
                 text: modelData.label
+                keyAction: modelData.action
+
                 onClicked: {
-                    root.actionTriggered(modelData.action, modelData.value ? modelData.value : "")
+                    root.actionTriggered(
+                        modelData.action,
+                        modelData.value ? modelData.value : ""
+                    )
+                }
+
+                onDoubleClicked: {
+                    if (modelData.action === "shift") {
+                        root.actionTriggered("shiftDouble", "")
+                    }
                 }
             }
         }
