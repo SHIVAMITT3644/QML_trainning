@@ -1,4 +1,3 @@
-.pragma library
 
 function alphaModel(upperCase) {
     function labelOf(group) {
