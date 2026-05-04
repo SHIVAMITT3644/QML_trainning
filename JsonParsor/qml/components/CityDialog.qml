@@ -11,6 +11,7 @@ Dialog {
     padding:16
     property var cityData
     property var theme
+    property var constant
     signal deleteClicked(int id)
 
     background: Rectangle {
@@ -70,8 +71,8 @@ Dialog {
             Image {
                 source:
                     theme.currentTheme === 1
-                                ? "qrc:/assets/icons/whiteCross.png"
-                                : "qrc:/assets/icons/close.png"
+                                ? constant.whiteCancleIcon
+                                : constant.blackCancleIcon
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
                 MouseArea
@@ -97,7 +98,7 @@ Dialog {
             wrapMode: Text.WordWrap
             color: theme.getTheme().textColor
             Layout.fillWidth: true
-            font.family: "Times New Roman"
+            font.family: constant.timeNewRomanText
             font.italic: true
         }
 
@@ -110,14 +111,14 @@ Dialog {
             Repeater {
                 model: [
                     {
-                        title: "Population",
+                        title: constant.populationText,
                         value: cityData?.population ?? "N/A",
                         bgColor: theme.currentTheme === 0 ? theme.cyanBlue :
                                  theme.currentTheme === 1 ? theme.reddishGrey :
                                  theme.green
                     },
                     {
-                        title: "Literacy Rate",
+                        title: constant.literacyText,
                         value: cityData?.literacyRate ?? "N/A",
                         bgColor: theme.currentTheme === 0 ? theme.yellowishOrange :
                                  theme.currentTheme === 1 ? theme.reddishGrey :
@@ -131,8 +132,8 @@ Dialog {
         Item { height: 10 }
 
         AppButton {
-            btnText: "Delete"
-            bgColor: "red"
+            btnText: constant.deleteText
+            bgColor: theme.red
 
             Layout.fillWidth: true
             Layout.preferredHeight: 42

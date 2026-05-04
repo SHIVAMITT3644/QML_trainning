@@ -4,6 +4,7 @@ import "../components"
 
 Rectangle {
     property var theme
+    property var constant
     height: 50
     width: parent.width
     color:theme.getTheme().backgroundColor
@@ -16,13 +17,13 @@ Rectangle {
         spacing: 20
 
         AppButton {
-            btnText: "Refresh"
+            btnText: constant.refreshText
             bgColor: theme.lightBlue
             onClicked: refreshClicked()
         }
 
         AppButton {
-            btnText: "Add"
+            btnText: constant.addText
             bgColor: theme.darkGreen
             onClicked: addClicked()
         }

@@ -6,6 +6,7 @@ Rectangle {
     width: parent.width
 
     property var theme
+    property var constant
 
     color: theme.getTheme().backgroundColor
 
@@ -14,13 +15,13 @@ Rectangle {
         spacing: 20
 
         Text {
-            text: "City App"
+            text: constant.appName
             color: theme.getTheme().textColor
             font.bold: true
         }
 
         Button {
-            text: "Theme"
+            text: theme.themeName()
             onClicked: theme.nextTheme()
         }
     }

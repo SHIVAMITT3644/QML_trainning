@@ -3,30 +3,54 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Dialog {
-    id: dialog
+    id: addCityDialog
     modal: true
     anchors.centerIn: parent
 
     width: parent ? parent.width * 0.7 : 420
 
     property var theme
-
-    property alias titleText: titleField.text
-    property alias descText: descField.text
-    property alias detailText: detailField.text
-    property alias populationText: populationField.text
-    property alias literacyText: literacyField.text
-
+    property var  constant
     signal submit(var data)
 
     background: Rectangle {
         radius: 12
-
-        color: theme ? theme.getTheme().cardColor : theme.white
-        border.color: theme ? (theme.currentTheme === 1 ? theme.hotFuchsia : theme.bitterChocolate) : theme.tropicalMint
+        color: theme.getTheme().cardColor
+        border.color: (theme.currentTheme === 1 ? theme.hotFuchsia : theme.bitterChocolate)
     }
 
     padding: 24
+
+    Component {
+        id: formRowComponent
+
+        RowLayout {
+            property string labelText: ""
+            property alias inputText: inputField.text
+            property bool numericOnly: false
+
+            Layout.fillWidth: true
+            Layout.preferredHeight: 45
+
+            Text {
+                text: labelText
+                Layout.preferredWidth: 120
+                color: theme.getTheme().textColor
+            }
+
+            TextField {
+                id: inputField
+                Layout.fillWidth: true
+                inputMethodHints: numericOnly ? Qt.ImhDigitsOnly : Qt.ImhNone
+                color: theme.getTheme().textColor
+
+                background: Rectangle {
+                    radius: 6
+                    color: theme.getTheme().backgroundColor
+                }
+            }
+        }
+    }
 
     contentItem: ColumnLayout {
         spacing: 18
@@ -34,110 +58,49 @@ Dialog {
 
         Text {
             id: errorText
-            color: theme.reddishGrey
+            text: constant.fieldEmptyText
             visible: false
-            text: "All fields are required"
+            color: theme.reddishGrey
         }
 
-        RowLayout {
+        Loader {
+            id: titleRow
+            sourceComponent: formRowComponent
             Layout.fillWidth: true
-
-            Text {
-                text: "Title"
-                Layout.preferredWidth: 120
-                color: theme ? theme.getTheme().textColor : "#000"
-            }
-
-            TextField {
-                id: titleField
-                Layout.fillWidth: true
-                color: theme ? theme.getTheme().textColor : "#000"
-                background: Rectangle {
-                    radius: 6
-                    color: theme ? theme.getTheme().backgroundColor : "#eee"
-                }
-            }
+            onLoaded: item.labelText = constant.titleText
         }
 
-        RowLayout {
+        Loader {
+            id: descriptionRow
+            sourceComponent: formRowComponent
             Layout.fillWidth: true
+            onLoaded: item.labelText = constant.descriptionText
+        }
 
-            Text {
-                text: "Description"
-                Layout.preferredWidth: 120
-                color: theme ? theme.getTheme().textColor : "#000"
-            }
+        Loader {
+            id: detailsRow
+            sourceComponent: formRowComponent
+            Layout.fillWidth: true
+            onLoaded: item.labelText = constant.detailText
+        }
 
-            TextField {
-                id: descField
-                Layout.fillWidth: true
-                color: theme ? theme.getTheme().textColor : "#000"
-                background: Rectangle {
-                    radius: 6
-                    color: theme ? theme.getTheme().backgroundColor : "#eee"
-                }
+        Loader {
+            id: populationRow
+            sourceComponent: formRowComponent
+            Layout.fillWidth: true
+            onLoaded: {
+                item.labelText = constant.populationText
+                item.numericOnly = true
             }
         }
 
-        RowLayout {
+        Loader {
+            id: literacyRow
+            sourceComponent: formRowComponent
             Layout.fillWidth: true
-
-            Text {
-                text: "Details"
-                Layout.preferredWidth: 120
-                color: theme ? theme.getTheme().textColor : "#000"
-            }
-
-            TextField {
-                id: detailField
-                Layout.fillWidth: true
-                color: theme ? theme.getTheme().textColor : "#000"
-                background: Rectangle {
-                    radius: 6
-                    color: theme ? theme.getTheme().backgroundColor : "#eee"
-                }
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-
-            Text {
-                text: "Population"
-                Layout.preferredWidth: 120
-                color: theme ? theme.getTheme().textColor : "#000"
-            }
-
-            TextField {
-                id: populationField
-                Layout.fillWidth: true
-                inputMethodHints: Qt.ImhDigitsOnly
-
-                background: Rectangle {
-                    radius: 6
-                    color: theme ? theme.getTheme().backgroundColor : "#eee"
-                }
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-
-            Text {
-                text: "Literacy (%)"
-                Layout.preferredWidth: 120
-                color: theme ? theme.getTheme().textColor : "#000"
-            }
-
-            TextField {
-                id: literacyField
-                Layout.fillWidth: true
-                inputMethodHints: Qt.ImhDigitsOnly
-
-                background: Rectangle {
-                    radius: 6
-                    color: theme ? theme.getTheme().backgroundColor : "#eee"
-                }
+            onLoaded: {
+                item.labelText = constant.literacyText
+                item.numericOnly = true
             }
         }
 
@@ -146,29 +109,28 @@ Dialog {
             spacing: 12
 
             AppButton {
-                btnText: "Cancel"
+                btnText: constant.cancelText
                 bgColor: theme.red
-
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
-
-                onClicked: dialog.close()
+                onClicked: addCityDialog.close()
             }
 
             AppButton {
-                btnText: "Add"
+                btnText: constant.addText
                 bgColor: theme.darkGreen
-
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
 
                 onClicked: {
                     if (
-                        titleText === "" ||
-                        descText === "" ||
-                        detailText === "" ||
-                        populationText === "" ||
-                        literacyText === ""
+                        !titleRow.item || !descriptionRow.item || !detailsRow.item ||
+                        !populationRow.item || !literacyRow.item ||
+                        titleRow.item.inputText === "" ||
+                        descriptionRow.item.inputText === "" ||
+                        detailsRow.item.inputText === "" ||
+                        populationRow.item.inputText === "" ||
+                        literacyRow.item.inputText === ""
                     ) {
                         errorText.visible = true
                         return
@@ -177,16 +139,26 @@ Dialog {
                     errorText.visible = false
 
                     submit({
-                        title: titleText,
-                        description: descText,
-                        details: detailText,
-                        population: parseInt(populationText),
-                        literacyRate: parseInt(literacyText)
+                        title: titleRow.item.inputText,
+                        description: descriptionRow.item.inputText,
+                        details: detailsRow.item.inputText,
+                        population: parseInt(populationRow.item.inputText),
+                        literacyRate: parseInt(literacyRow.item.inputText)
                     })
 
-                    dialog.close()
+                    addCityDialog.close()
                 }
             }
         }
+    }
+
+    onClosed: {
+        errorText.visible = false
+
+        if (titleRow.item) titleRow.item.inputText = ""
+        if (descriptionRow.item) descriptionRow.item.inputText = ""
+        if (detailsRow.item) detailsRow.item.inputText = ""
+        if (populationRow.item) populationRow.item.inputText = ""
+        if (literacyRow.item) literacyRow.item.inputText = ""
     }
 }

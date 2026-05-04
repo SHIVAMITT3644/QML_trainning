@@ -40,6 +40,7 @@ Item {
             Header {
                 width: parent.width
                 theme: themeObj
+                constant : constants
             }
 
             ListView {
@@ -67,6 +68,7 @@ Item {
             Footer {
                 width: parent.width
                 theme: themeObj
+                constant : constants
                 onRefreshClicked: loadData()
                 onAddClicked: addDialog.open()
             }
@@ -76,6 +78,7 @@ Item {
     CityDialog {
         id: cityDialog
         theme: themeObj
+        constant: constants
 
         onDeleteClicked: function(id) {
             api.deleteItem(id, loadData)
@@ -85,6 +88,7 @@ Item {
     AddDialog {
         id: addDialog
         theme: themeObj
+        constant: constants
 
         onSubmit: function(data) {
             api.addItem(data, loadData)

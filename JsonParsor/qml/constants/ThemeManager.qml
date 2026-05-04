@@ -16,19 +16,22 @@ QtObject {
     property color hotFuchsia : "#FF004F"
     property color bitterChocolate : "#733635"
     property color tropicalMint : "#00FFBF"
+    property color lightBorderCardColor : "#555"
+    property color darkBorderCardColor : "#d0d0d0"
+
 
     property var themes: [
         {
             name: "Light",
             backgroundColor: "#f5f5f5",
-            cardColor: "#ffffff",
-            textColor: "#000000"
+            cardColor: white,
+            textColor: black
         },
         {
             name: "Dark",
             backgroundColor: "#1e1e1e",
             cardColor: "#2c2c2c",
-            textColor: "#ffffff"
+            textColor: white
         },
         {
             name: "Blue",
