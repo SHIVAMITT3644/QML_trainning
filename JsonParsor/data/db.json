@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "title": "Delhi",
+      "description": "Capital of India",
+      "details": "Major political, cultural, and commercial center",
+      "population": 32900000,
+      "literacyRate": 86,
+      "id": 1
+    },
+    {
+      "title": "Mumbai",
+      "description": "Financial capital of India",
+      "details": "Famous for Bollywood and marine drive",
+      "population": 20400000,
+      "literacyRate": 89,
+      "id": 2
+    },
+    {
+      "title": "Bangalore",
+      "description": "Silicon Valley of India",
+      "details": "Tech hub with pleasant climate",
+      "population": 13100000,
+      "literacyRate": 88,
+      "id": 3
+    },
+    {
+      "title": "Kolkata",
+      "description": "City of Joy",
+      "details": "Rich in literature, art, and colonial architecture",
+      "population": 14800000,
+      "literacyRate": 87,
+      "id": 5
+    },
+    {
+      "title": "Hyderabad",
+      "description": "City of Pearls",
+      "details": "IT hub with historic landmarks like Charminar",
+      "population": 10400000,
+      "literacyRate": 83,
+      "id": 6
+    },
+    {
+      "title": "Pune",
+      "description": "Oxford of the East",
+      "details": "Educational and IT hub",
+      "population": 7500000,
+      "literacyRate": 91,
+      "id": 7
+    },
+    {
+      "title": "Ahmedabad",
+      "description": "Commercial city of Gujarat",
+      "details": "Famous for textile industry and Sabarmati Ashram",
+      "population": 8400000,
+      "literacyRate": 85,
+      "id": 8
+    },
+    {
+      "title": "Jaipur",
+      "description": "Pink City",
+      "details": "Known for forts, palaces, and tourism",
+      "population": 4200000,
+      "literacyRate": 84,
+      "id": 9
+    },
+    {
+      "title": "Lucknow",
+      "description": "City of Nawabs",
+      "details": "Famous for culture, cuisine, and heritage",
+      "population": 3800000,
+      "literacyRate": 82,
+      "id": 10
+    }
+  ]
+}
